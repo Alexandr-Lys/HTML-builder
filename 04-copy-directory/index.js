@@ -13,7 +13,12 @@ const promiseMkdir = async () => {
   await fsPromises.mkdir(pathCopy, { recursive: true });
 };
 
-const copyFiles = async() => {
+const copyFiles = async () => {
+  await fsPromises.rm(pathCopy, {
+    recursive: true,
+    force: true,
+  });
+  await promiseMkdir();
   const files = await getArrayFiles();
   files.forEach(dirent => {
     const pathNameFiles = path.join(__dirname, 'files', `${dirent.name}`);
@@ -23,5 +28,4 @@ const copyFiles = async() => {
     });
   });
 };
-promiseMkdir();
 copyFiles();

@@ -18,6 +18,14 @@ function stylesDistInit() {
     if (err) throw err;
   });
 }
+
+const deleteDist = async() => {
+  await fsPromises.rm(getPath('dist'), {
+    recursive: true,
+    force: true,
+  });
+};
+
 const promiseMkdir = async (pathName) => {
   return await fsPromises.mkdir(pathName, { recursive: true });
 };
@@ -94,6 +102,7 @@ const buildCssFiles = async () => {
 };
 
 const buildPage = async () => {
+  await deleteDist();
   await promiseMkdir(getPath('dist'));
   await replaceTemplateToComponents(getPath('dist'));
   await buildCssFiles();
